@@ -1,6 +1,6 @@
-# DECS API
+# litlink API
 
-A description of your DECS (please specify what DECS stands for) API project.
+A description of your litlink (please specify what litlink stands for) API project.
 
 ## Table of Contents
 - [Features](#features)
@@ -18,10 +18,18 @@ A description of your DECS (please specify what DECS stands for) API project.
 ## Features
 - List key features of your API
 - Use bullet points for better readability
+- Add more sections as needed
+
 
 ## Prerequisites
-- Node.js (version X.X.X or higher)
-- npm or yarn
+- Node.js (version 18.19.0 or higher)
+- Package manager (one of):
+  - npm
+  - yarn
+  - bun
+  - pnpm
+- Docker (version 20.10.0 or higher)
+- Redis (version 7.0.0 or higher)
 - Any other system requirements
 
 ## Installation
@@ -37,6 +45,10 @@ cd decs-api
 npm install
 # or
 yarn install
+# or
+pnpm install
+# or
+bun install
 ```
 
 3. Set up environment variables:
@@ -50,12 +62,12 @@ cp .env.example .env
 
 To start the development server:
 ```bash
-npm run dev
+npm run dev:api
 # or
-yarn dev
+yarn dev:api
 ```
 
-The API will be available at `http://localhost:YOUR_PORT`
+The API will be available at `http://localhost:3001`
 
 ## API Documentation
 
@@ -80,8 +92,9 @@ Describe your API endpoints here:
 The following environment variables are required:
 
 ```env
-PORT=3000
-DATABASE_URL=your_database_url
+PORT=3001
+MONGO_URI=mongodb_uri
+REDIS_URI=redis_uri
 JWT_SECRET=your_jwt_secret
 # Add other environment variables
 ```
@@ -94,9 +107,9 @@ Explain development practices, coding standards, and any other relevant informat
 
 To run tests:
 ```bash
-npm test
+npm run test:api
 # or
-yarn test
+yarn test:api
 ```
 
 ## Deployment
@@ -113,4 +126,9 @@ Instructions for deploying the API to production.
 
 ## License
 
-This project is licensed under the [LICENSE NAME] - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT](LICENSE) license.
+
+
+## Developer
+
+- [@devaeem](https://github.com/devaeem)
