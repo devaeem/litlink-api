@@ -36,8 +36,8 @@ A description of your litlink (please specify what litlink stands for) API proje
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/decs-api.git
-cd decs-api
+git clone https://github.com/devaeem/litlink-api.git
+cd litlink-api
 ```
 
 2. Install dependencies:
@@ -130,5 +130,4 @@ This project is licensed under the [MIT](LICENSE) license.
 
 
 ## Developer
-
 - [@devaeem](https://github.com/devaeem)
