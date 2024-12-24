@@ -1,10 +1,11 @@
+
 import { HttpStatusCode } from "../้http/status/code";
 
 import { HttpStatusMessage } from "../้http/status/code";
-
+import { formatMessageValue } from "../utils/typeChecks";
 interface ApiResponse<T> {
     statusCode: HttpStatusCode;
-    message: HttpStatusMessage;
+    message: string;
     data?: T;
 }
 
@@ -17,10 +18,10 @@ export class ResponseHelper {
         };
     }
 
-    public static error(message: HttpStatusMessage, statusCode: HttpStatusCode): ApiResponse<null> {
+    public static error(message: any, statusCode: HttpStatusCode): ApiResponse<null> {
         return {
             statusCode: statusCode,
-            message: message
+            message: formatMessageValue(message)
         };
     }
 }

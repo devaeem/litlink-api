@@ -1,23 +1,60 @@
-import express, { Express, Request, Response } from 'express';
-import { xenv } from './config/setting';
-import exampleRoutes from './routes/example.routes';
+import express, { Express, Request, Response } from "express";
+import cors from "cors";
+import morgan from "morgan";
+import bodyParser from "body-parser";
+import { xenv } from "./config/setting";
+import exampleRoutes from "./routes/example.routes";
+import bookRoutes from "./routes/Book.routes";
+import { MongoDBConnection } from "./config/mongodb.config";
+import swaggerUi from 'swagger-ui-express';
+import { swaggerDocs } from './config/swagger';
 
-const app: Express = express();
-const port = xenv.PORT;
+class App {
+    public app: Express;
+    private port: number | string;
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+    constructor() {
+        this.app = express();
+        this.port = xenv.PORT;
+        this.initializeSwagger();
+        this.initializeMiddlewares();
+        this.initializeRoutes();
+        this.initializeDatabase();
+    }
 
-// Routes
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server is running');
-});
+    private initializeMiddlewares(): void {
+        this.app.use(cors());
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(bodyParser.json({ limit: "50mb" }));
+        this.app.use(morgan("dev"));
+    }
 
-app.use('/api', exampleRoutes);
+    private initializeSwagger(): void {
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+    }
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+    private initializeRoutes(): void {
+        this.app.get("/", (req: Request, res: Response) => {
+            res.send("Express + TypeScript Server is running");
+        });
+        this.app.use("/api", exampleRoutes);
+        this.app.use("/api", bookRoutes);
+    }
 
-export default app;
+    private async initializeDatabase(): Promise<void> {
+        const mongoConnection = MongoDBConnection.getInstance();
+        await mongoConnection.connect();
+    }
+
+    public listen(): void {
+        this.app.listen(this.port, () => {
+            console.log(`⚡️[server]: Server is running at http://localhost:${this.port}`);
+        });
+    }
+}
+
+const server = new App();
+server.listen();
+
+export default server.app;

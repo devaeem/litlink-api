@@ -15,6 +15,8 @@ export enum HttpStatusCode {
 export enum HttpStatusMessage {
   SUCCESS = 'Success',
   CREATED = 'Created',
+  UPDATED = 'Updated',
+  DELETED = 'Deleted',
   NO_CONTENT = 'No Content',
   BAD_REQUEST = 'Bad Request',
   UNAUTHORIZED = 'Unauthorized',
