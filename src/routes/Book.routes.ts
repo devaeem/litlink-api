@@ -1,7 +1,7 @@
 import { BookController } from "../core/book/BookController.min";
 import { Router } from "express";
 import { createHandler } from "../utils/routeHandler";
-import { HttpMethod } from "../้http/status/method";
+import { HttpMethod } from "../http/status/method";
 
 const router = Router();
 const ctx = BookController;
@@ -43,7 +43,7 @@ const baseRoutes: RouteProps[] = [
    method: HttpMethod.DELETE,
    controller: ctx,
    handler: "deleteBook",
- }, 
+ },
 ];
 
 // Map routes to Router

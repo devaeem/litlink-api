@@ -1,6 +1,6 @@
 import { ControllerBase } from "../../controllers/ControllerBase";
 import { Request, Response } from "express";
-import { HttpStatusMessage, HttpStatusCode } from "../../้http/status/code";
+import { HttpStatusMessage, HttpStatusCode } from "../../http/status/code";
 import { ZodError } from "zod";
 import { BookService } from "./BookService";
 import { parsePaginationQuery } from "../../dtos/pagination.dto";
@@ -9,7 +9,6 @@ import {
   parseBookCreatePayload,
   parseBookUpdatePayload,
 } from "./dtos/bookReq.dto";
-import { GetAllResponseDto, PaginatedResponse } from "@/utils/interface/GetAllRequestDto.interface";
 
 export class BookController extends ControllerBase {
   private _bookService: BookService;

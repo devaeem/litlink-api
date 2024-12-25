@@ -3,11 +3,11 @@ import cors from "cors";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import { xenv } from "./config/setting";
-import exampleRoutes from "./routes/example.routes";
 import bookRoutes from "./routes/Book.routes";
 import { MongoDBConnection } from "./config/mongodb.config";
 import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './config/swagger';
+import typebookRoutes from "./routes/typebook.routes";
 
 class App {
     public app: Express;
@@ -38,8 +38,9 @@ class App {
         this.app.get("/", (req: Request, res: Response) => {
             res.send("Express + TypeScript Server is running");
         });
-        this.app.use("/api", exampleRoutes);
+
         this.app.use("/api", bookRoutes);
+        this.app.use("/api", typebookRoutes);
     }
 
     private async initializeDatabase(): Promise<void> {

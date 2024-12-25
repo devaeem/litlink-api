@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ResponseHelper } from "../helpers/ResponseHelper";
-import { HttpStatusCode, HttpStatusMessage } from "../้http/status/code";
+import { HttpStatusCode, HttpStatusMessage } from "../http/status/code";
 import { PaginationDto, parsePaginationQuery } from "../dtos/pagination.dto";
 
 export abstract class ControllerBase {

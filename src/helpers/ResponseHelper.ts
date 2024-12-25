@@ -1,7 +1,7 @@
 
-import { HttpStatusCode } from "../้http/status/code";
+import { HttpStatusCode } from "../http/status/code";
 
-import { HttpStatusMessage } from "../้http/status/code";
+import { HttpStatusMessage } from "../http/status/code";
 import { formatMessageValue } from "../utils/typeChecks";
 interface ApiResponse<T> {
     statusCode: HttpStatusCode;
