@@ -2,6 +2,9 @@ export interface GetAllRequestDto {
  page: number;
  limit: number;
  populate?: string[] | undefined;
+ sort?: string;
+ sortBy?: string;
+ search?: string;
 }
 
 export interface PaginatedResponse<T> {

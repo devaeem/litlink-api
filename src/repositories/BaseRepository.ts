@@ -36,14 +36,16 @@ export abstract class BaseRepository<T> {
   async findWithPagination(
     page: number,
     limit: number,
-    populate?: string[] | undefined
+    populate?: string[] | undefined,
+    searchFilter?:Record<string, any>,
+    sortFilter?:Record<string, any>
   ): Promise<PaginatedResponse<T>> {
     const offset = (page - 1) * limit;
-    const total = await this.model.countDocuments({ isActive: true });
+    const total = await this.model.countDocuments({ isActive: true, ...searchFilter, ...sortFilter });
 
     // Create base query
     let query = this.model
-        .find({ isActive: true })
+        .find({ isActive: true, ...searchFilter, ...sortFilter })
         .skip(offset)
         .limit(limit);
 

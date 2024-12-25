@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 /**
  * Checks if the value is an array or string and formats it accordingly
  * @param value - The value to check and format
@@ -6,6 +8,37 @@
 export const formatMessageValue = (value: unknown): string => {
   console.log(value);
   // Handle arrays specifically
+  if(typeof value === 'string' && value.includes('Page number is required')) {
+    const result : any = [
+      {
+        id: uuidv4(),
+        type: 'error',
+        traceId: uuidv4(),
+        timestamp: new Date().toISOString(),
+        field: 'page',
+        message: 'Page number is required'
+      }
+    ]
+
+    return  result;
+  }
+
+  if(typeof value === 'string' && value.includes('Limit number is required')) {
+    const result : any = [
+      {
+        id: uuidv4(),
+        type: 'error',
+        traceId: uuidv4(),
+        timestamp: new Date().toISOString(),
+        field: 'limit',
+        message: 'Limit number is required'
+      }
+    ]
+
+    return  result;
+  }
+
+
 
   if (typeof value === 'string' && value.includes('ErrorStrictPopulateError')) {
     const match = value.match(/Cannot populate path `([^`]+)`/);

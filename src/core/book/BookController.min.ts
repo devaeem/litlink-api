@@ -22,10 +22,10 @@ export class BookController extends ControllerBase {
     try {
       const dto = parsePaginationQuery(this.req.query);
 
-      const books = await this._bookService.getAll({...dto, populate: dto.populate ? dto.populate.split(",") : undefined});
+      const _dataResultBooks = await this._bookService.getAll({...dto, populate: dto.populate ? dto.populate.split(",") : undefined});
       this.sendSuccess(
-        books,
-        HttpStatusMessage.SUCCESS,
+        _dataResultBooks,
+        HttpStatusMessage.SUCCESS ,
         HttpStatusCode.SUCCESS
       );
     } catch (error: unknown) {
@@ -45,7 +45,7 @@ export class BookController extends ControllerBase {
     try {
       const dto = parseBookGetIdPayload(this.req.params);
 
-      const book = await this._bookService.getById(dto.id);
+      const book = await this._bookService.getById(dto);
       if (!book) {
         this.sendError("BookId not found", HttpStatusCode.NOT_FOUND);
         return;
@@ -83,12 +83,12 @@ export class BookController extends ControllerBase {
   async updateBook(): Promise<void> {
     try {
       const dto = parseBookUpdatePayload(this.req.body);
-      const findId = await this._bookService.getById(this.req.params.id);
+      const findId = await this._bookService.getById({id: this.req.params.id});
       if (!findId) {
         this.sendError("BookId not found", HttpStatusCode.NOT_FOUND);
         return;
       }
-      const book = await this._bookService.update(dto, this.req.params.id);
+      const book = await this._bookService.update(dto, {id: this.req.params.id});
 
       this.sendSuccess(null, HttpStatusMessage.SUCCESS, HttpStatusCode.SUCCESS);
     } catch (error: unknown) {
@@ -106,12 +106,12 @@ export class BookController extends ControllerBase {
   async deleteBook(): Promise<void> {
     try {
       const dto = await parseBookGetIdPayload(this.req.params);
-      const findId = await this._bookService.getById(dto.id);
+      const findId = await this._bookService.getById(dto);
       if (!findId) {
         this.sendError("BookId not found", HttpStatusCode.NOT_FOUND);
         return;
       }
-      const book = await this._bookService.delete(dto.id);
+      const book = await this._bookService.delete(dto);
       this.sendSuccess(
         book,
         HttpStatusMessage.DELETED,

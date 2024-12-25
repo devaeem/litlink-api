@@ -1,4 +1,4 @@
-import { getModelForClass, ModelOptions, prop } from "@typegoose/typegoose";
+import { getModelForClass, ModelOptions, prop, Severity } from "@typegoose/typegoose";
 import { BaseModel, IBaseModel } from "../../../models/BaseModel";
 
 export interface IBook extends  IBaseModel {
@@ -10,6 +10,11 @@ export interface IBook extends  IBaseModel {
 @ModelOptions({
   schemaOptions: {
     timestamps: true,
+    collection: 'books',
+
+  },
+  options: {
+    allowMixed: Severity.ALLOW,
   },
 })
 export class Book extends BaseModel  {

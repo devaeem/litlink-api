@@ -1,13 +1,14 @@
 import { BookController } from "../core/book/BookController.min";
 import { Router } from "express";
 import { createHandler } from "../utils/routeHandler";
+import { HttpMethod } from "../้http/status/method";
 
 const router = Router();
 const ctx = BookController;
 
 interface RouteProps {
   path: string;
-  method: "get" | "post" | "put" | "delete";
+  method: HttpMethod.GET | HttpMethod.POST | HttpMethod.PUT | HttpMethod.DELETE;
   controller: typeof ctx;
   handler: string;
 }
@@ -15,38 +16,38 @@ interface RouteProps {
 const baseRoutes: RouteProps[] = [
  {
    path: "/book",
-   method: "get",
+   method: HttpMethod.GET,
    controller: ctx,
    handler: "getBook",
  },
  {
    path: "/book/:id",
-   method: "get",
+   method: HttpMethod.GET,
    controller: ctx,
    handler: "getBookById",
  },
  {
    path: "/book",
-   method: "post",
+   method: HttpMethod.POST,
    controller: ctx,
    handler: "createBook",
  },
  {
    path: "/book/:id",
-   method: "put",
+   method: HttpMethod.PUT,
    controller: ctx,
    handler: "updateBook",
  },
  {
    path: "/book/:id",
-   method: "delete",
+   method: HttpMethod.DELETE,
    controller: ctx,
    handler: "deleteBook",
- },
+ }, 
 ];
 
 // Map routes to Router
-baseRoutes.forEach((route: RouteProps) => {
+baseRoutes.forEach((route: RouteProps):void => {
  const { path, method, controller, handler } = route;
 
  // Ensure method is a valid Router method

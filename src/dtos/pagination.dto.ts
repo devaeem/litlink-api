@@ -26,6 +26,10 @@ export const PaginationSchema = z.object({
     .refine((val) => val <= 1000, {
       message: "Limit cannot exceed 1000 items per page",
     }),
+  sort: z.string().optional(),
+  sortBy: z.string().optional(),
+  search: z.string().optional(),
+  status: z.string().optional(),
   populate: z
     .union([z.string(), z.array(z.string())])
     .optional()
@@ -47,5 +51,9 @@ export const parsePaginationQuery = (
     page: query.page ? Number(query.page) : undefined,
     limit: query.limit ? Number(query.limit) : undefined,
     populate: query.populate ? query.populate : undefined,
+    sort: query.sort ? query.sort : undefined,
+    sortBy: query.sortBy ? query.sortBy : undefined,
+    search: query.search ? query.search : undefined,
+    status: query.status ? query.status : undefined,
   });
 };

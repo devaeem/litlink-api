@@ -1,35 +1,36 @@
 import { GetAllRequestDto, PaginatedResponse } from "@/utils/interface/GetAllRequestDto.interface";
 import { BookRepository } from "./BookRepository";
-import { BookDTO } from "./dtos/bookReq.dto";
+import { IBookCreateReqDto, IBookGetIdReqDto, IBookReqDto, IBookUpdateReqDto } from "./dtos/bookReq.dto";
 import { Book } from "./entity/book.models";
+import { IBookResDto } from "./dtos/bookRes.dto";
 export class BookService {
 
-  private repository: BookRepository;
+  private _repository: BookRepository;
 
   constructor() {
-    this.repository = new BookRepository();
+    this._repository = new BookRepository();
   }
 
- public async getAll(dto: GetAllRequestDto):Promise<PaginatedResponse<Book>> {
+ public async getAll(dto: IBookReqDto):Promise<PaginatedResponse<IBookResDto>> {
   console.log('dto', dto);
 
-  return await this.repository.findWithPagination(dto.page, dto.limit, dto.populate);
+  return await this._repository.findWithCustomPagination(dto.page, dto.limit, dto.populate, dto.search, dto.sort);
 }
 
-public async getById(id: string):Promise<Book | null>   {
-  return await this.repository.findById(id);
+public async getById(dto: IBookGetIdReqDto):Promise<IBookResDto | null>   {
+  return await this._repository.findById(dto.id);
 }
 
-public async create(dto: BookDTO):Promise<Book> {
-  return await this.repository.create(dto);
+public async create(dto: IBookCreateReqDto):Promise<IBookResDto> {
+  return await this._repository.create(dto);
 }
 
-public async update(dto: BookDTO, id: string):Promise<Book | null> {
-  return await this.repository.update(id, dto);
+public async update(dto: IBookUpdateReqDto, u: IBookGetIdReqDto):Promise<IBookResDto | null> {
+  return await this._repository.update(u.id, dto);
 }
 
-public async delete(id: string):Promise<boolean> {
-  return await this.repository.delete(id);
+public async delete(d: IBookGetIdReqDto):Promise<boolean> {
+  return await this._repository.delete(d.id);
 }
 
 
