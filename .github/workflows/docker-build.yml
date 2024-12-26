@@ -31,4 +31,3 @@ jobs:
           ${{ secrets.DOCKERHUB_USERNAME }}/your-app-name:latest
           ${{ secrets.DOCKERHUB_USERNAME }}/your-app-name:${{ github.sha }}
 
-     -
