@@ -8,6 +8,7 @@ import { MongoDBConnection } from "./config/mongodb.config";
 import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './config/swagger';
 import typebookRoutes from "./routes/typebook.routes";
+import authRoutes from "./routes/auth.routes";
 
 class App {
     public app: Express;
@@ -38,9 +39,17 @@ class App {
         this.app.get("/", (req: Request, res: Response) => {
             res.send("Express + TypeScript Server is running");
         });
+        const v1Router = express.Router();
+        //module
+        //  library is module book management
+        //  aaa is module user management
 
-        this.app.use("/api", bookRoutes);
-        this.app.use("/api", typebookRoutes);
+
+
+        v1Router.use("/library", bookRoutes);
+        v1Router.use("/library", typebookRoutes);
+        v1Router.use("/aaa", authRoutes);
+        this.app.use("/api/v1", v1Router);
     }
 
     private async initializeDatabase(): Promise<void> {

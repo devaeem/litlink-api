@@ -1,5 +1,6 @@
+
 import { BookPopulate } from "../core/book/book.populate";
-import { PaginatedResponse } from "@/utils/interface/GetAllRequestDto.interface";
+import { PaginatedResponse } from "../utils/interface/GetAllRequestDto.interface";
 import { Model, Document } from "mongoose";
 
 export abstract class BaseRepository<T> {
@@ -53,13 +54,28 @@ export abstract class BaseRepository<T> {
     if (populate && populate.length > 0) {
         populate.forEach((path) => {
             const populateOptions = BookPopulate.populate([path]);
-
-            query = query.populate(populateOptions);
-
+            populateOptions.forEach(option => {
+                if (option.fields) {
+                    query = query.populate({
+                        path: option.path,
+                        select: option.fields.replace(/,/g, ' '),
+                        justOne: true,
+                        transform: (doc, original) => doc || original
+                    });
+                } else {
+                    query = query.populate({
+                        path: option.path,
+                        justOne: true,
+                        transform: (doc, original) => doc || original
+                    });
+                }
+            });
         });
     }
 
     const data = await query;
+
+
 
     return {
         rows: data,

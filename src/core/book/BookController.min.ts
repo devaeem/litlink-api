@@ -9,6 +9,7 @@ import {
   parseBookCreatePayload,
   parseBookUpdatePayload,
 } from "./dtos/bookReq.dto";
+import { convertToISBN13 } from "../../utils/funtion/converttoISbn";
 
 export class BookController extends ControllerBase {
   private _bookService: BookService;
@@ -22,9 +23,14 @@ export class BookController extends ControllerBase {
       const dto = parsePaginationQuery(this.req.query);
 
       const _dataResultBooks = await this._bookService.getAll({...dto, populate: dto.populate ? dto.populate.split(",") : undefined});
+      const dataResultNew = await _dataResultBooks.rows.map( (item: any) => ({
+        ...item.toObject(),
+        isbn: item.isbn ?  convertToISBN13(item.isbn) : null
+      }));
+
       this.sendSuccess(
-        _dataResultBooks,
-        HttpStatusMessage.SUCCESS ,
+        dataResultNew,
+        HttpStatusMessage.SUCCESS,
         HttpStatusCode.SUCCESS
       );
     } catch (error: unknown) {

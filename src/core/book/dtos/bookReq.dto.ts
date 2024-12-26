@@ -29,6 +29,8 @@ export const BookSchema = z.object({
   title: z.string().min(1).trim(),
   author: z.string().min(1).trim(),
   publishedYear: z.number().min(1),
+  isbn: z.string().min(1).trim(),
+  typeBook: z.string().min(1).trim(),
 });
 
 export type IBookDTO = z.infer<typeof BookSchema>;
